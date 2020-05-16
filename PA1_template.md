@@ -61,12 +61,13 @@ We should average the number of steps by date.
 Some days have no value at all hence they should be excluded from the plot.
 
 ```r
-averageStepsPerDay <-tapply(dt$steps, dt$date, mean,na.rm=TRUE)
-availableDates <- !is.na(averageStepsPerDay)
-plot(as.Date(names(averageStepsPerDay[availableDates])),
-     averageStepsPerDay[availableDates],
+averageStepsPerDayInterval <-tapply(dt$steps, dt$interval, mean,na.rm=TRUE)
+
+
+plot(names(averageStepsPerDayInterval),
+     averageStepsPerDayInterval,
      type='l',
-     xlab = 'Date',
+     xlab = 'Interval',
      ylab = 'Average steps per day')
 ```
 
@@ -75,7 +76,9 @@ plot(as.Date(names(averageStepsPerDay[availableDates])),
 ```r
 dev.copy(png,'figure/stepsPerDayTimeSeries.png')
 dev.off()
+maxInterval <- which.max(averageStepsPerDayInterval)
 ```
+Interval 104 has the most number of steps
 
 ## Imputing missing values
 Data has 2304 `NA`s. We will impute the missing values by filling them with the mean of the 5-minute interval.
